@@ -5,8 +5,6 @@ env:
   - DOCKER_IMAGE=strapdata/elassandra-builder
 notifications:
   email: true
-before_install:
-- ulimit -u 65535
 services:
 - docker
 install: true
