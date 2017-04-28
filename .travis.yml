@@ -1,23 +1,21 @@
+sudo: required
 language: java
-jdk:
-- oraclejdk8
-sudo: false
-cache:
-  directories:
-  - $HOME/.m2
+env:
+  global:
+  - DOCKER_IMAGE=strapdata/elassandra-builder
 notifications:
   email: true
 before_install:
 - ulimit -u 65535
-install: mvn package -DskipTests
+services:
+- docker
+install: true
+script:
+  - docker run -v ${PWD}:/src ${DOCKER_IMAGE}
 deploy:
   provider: releases
-  overwrite: true
   api_key:
-    secure: aPWTxkKnO4CWEsH7z775JLFlsO4DrMbkp9thr2F0Ntqi510Y168LbNUEOXEm2LQjb68hAIMHOPFnQp6gCa4AxqcFhAoqmEQqR1Uig6LydCykjNTAzcOSmBA+JE+qhznGX2ZnGCx2UdyODXm34lMJ3c59hblVqwCP7C9ZR1gFx55CjBb17MwxPufPDhON3/NDKEZTAhjklWz3pycXDVm2DX6WzyEeENF69JPklY/bQVXQNZ+0y0AgZnuhdlcZxK29Ou2RqlfzV0UoWYjEt4SvXSLhSdORMD0KbBoN7EElPTAZ4gDE+xtE2Q0TN5IWYBwEq5BTozLs7DjRvZw+HQ5cZEu2kOsbRqHUidtYSSRoaclq+4GYarjhAzJ76ySVcI+KN+2QbiHVP7fULIRCVDGogQZMcpD70oNMntWD3ouYzQMgIE+bmq02vQx7XQHxpd4BdqC2Xa3toddnwtzfOgx5RiGePvHdAIx3n1XRaTS8z+xAH/xLfwBxCVGJVKAuPX6z626BQD41BKpfFI+0cyiJ+Ma87JC8JfJhJnTb59cLp5kebXaHNOghSgL2Y4eh/4g0HTg/mIaQJHcmHWUiMvuUFehW3NsgIFjDXWCle2nauy/1pEUOHOk6P4ZVSaCzHQiu2fFHaD4Wmi1eSPMOYhWr4tEs4qE8c9t4Vnq90A7sxV0=
-  file: 
-    - "distribution/tar/target/releases/elassandra-2.4.2.tar.gz"
-    - "distribution/zip/target/releases/elassandra-2.4.2.zip"
+    secure: RVesdqBUpXVk38ac2Me3NvuOdEEwOLOZJYhRxafGoYVeCKLewn2Q65FVhVr/Xo7+BgK5fP95oWnjHfaNiA/GYpljqiVnuzngZZlZ3vudU0sa5Sp/Zcb3mRkHRuUogCmD+RU5ioGVBGDQvNg83RVeEoQeim5aDpJV72oTS2cbcTYGiJoNdGv+ReV+h9E89Un+AMB/25Dy3Ji0aLMpyJ5zSbFIOX1hL7pRzFA7PqM8QNFgCz89GkfEVDrcMlz0sHsb/AARZYx6fdLkjqUyWccZSF4WN3ZoQyxFykEE/XU9bejAyLVdg8xxgqJxfq3yKhFKUrA55nEbX0qfOvD/89J1d1MTlpo8m6JZ3FSZJcHoRvGAn7MEyuoOY5NezsOimRRHDyqyulo03phyF3wDVsU3MNGxoDeKGzg7W2w9QsAlDEHxVtj7h1fuatndOgJNqdILMvEE7t+B+dbkJks0CTm4EP6567tiAQ6jznflqHzkUyvih7dwN8OKbRPJifTtVzRrCBpMglEkKc3ll1DmK8aqPELRGT/LfVvMrfq22agXONokkxzVw9empOITiPoSitbnXbHjucUZNdTfpJM3DTmWtGMimIPx7KTMMK3aA3Rt/C1yOptmS3AkuR9o8DLpqbIpp5nXOD0gK0vZcwkUNyuxMnaSFwJ3OJNA9mbQL42NUmk=
+  file: distribution/tar/target/releases/elassandra-2.4.2.tar.gz
   on:
-    tags: true
-    repo: strapdata/elassandra
+    repo: DBarthe/elassandra
